@@ -1,4 +1,4 @@
-# Welcome to the libmutotp wiki!
+# libmutotp
 
 libMUTOTP is a C library designed to bring easy Two-Factor Authentication to
 MU*s and other text mode applications.
