@@ -144,7 +144,7 @@ int32_t compute_totp(const char* secret, size_t secretlen,
 		10000000, 100000000
 	};
 
-	if(digits > sizeof(ddivisor)/sizeof(uint32_t))
+	if(digits >= sizeof(ddivisor)/sizeof(uint32_t))
 	{
 		return -1;
 	}
