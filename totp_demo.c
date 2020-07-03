@@ -52,7 +52,7 @@ void demo_totp_calculation()
 
 	//Decode the secret from base32 ASCII to its raw data
 	size_t secretlen = base32decode(buf, strnlen(buf, 512),
-					secret, 41);
+					secret, 33);
 
 	//Compute current TOTP using the entered secret and current time.  In
 	//actual use you would store the secret after it is generated, then
