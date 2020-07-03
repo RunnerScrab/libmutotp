@@ -63,17 +63,22 @@ char* create_totp_qrcode(const char* label, const char* issuer, const char* secr
 	uint8_t* qrcodeansi = (char*) malloc(qrcodeansilen);
 	memset(qrcodeansi, 0 , qrcodeansilen);
 	size_t idx = 0;
+	uint8_t lastansi = 0;
 	for(y = 0; y < qrcode.size; ++y)
 	{
 		for(x = 0; x < qrcode.size; ++x)
 		{
 			if(qrcode_getModule(&qrcode, x, y))
 			{
-				idx += snprintf(&qrcodeansi[idx], qrcodeansilen - idx, "%s  ", rev);
+				idx += snprintf(&qrcodeansi[idx], qrcodeansilen - idx, "%s  ",
+						1 == lastansi ? "" : rev);
+				lastansi = 1;
 			}
 			else
 			{
-				idx += snprintf(&qrcodeansi[idx], qrcodeansilen - idx, "%s  ", def);
+				idx += snprintf(&qrcodeansi[idx], qrcodeansilen - idx, "%s  ",
+						0 == lastansi ? "" : def);
+				lastansi = 0;
 			}
 		}
 		idx += snprintf(&qrcodeansi[idx], qrcodeansilen - idx, "\n");
