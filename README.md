@@ -3,7 +3,7 @@
 libMUTOTP is a C library designed to bring easy Two-Factor Authentication to
 MU*s and other text mode applications.
 
-The library can generate TOTP QR codes in ANSI graphics, which you can display
+The library can generate TOTP QR codes in ANSI graphics, which you can then display
 on most ANSI-compatible virtual terminals or MU* clients. The QR codes are smaller
 than 80x40 characters.
 
