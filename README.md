@@ -57,4 +57,4 @@ printf("Current otp code: %06d\n", otp);
 ```
 
 # Licenses
-libmutotp is licensed under the LGPL 2.1. Its SHA1 code was written by Steve Reid and is in public domain.
+libmutotp is licensed under the LGPL 2.1. Its SHA1 code was written by Steve Reid and is in public domain. Richard Moore is the author of the qrcode library, which is under the MIT license.
