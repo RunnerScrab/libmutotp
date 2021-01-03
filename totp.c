@@ -110,29 +110,23 @@ int generate_random_secret(char* out, size_t outlen)
 		return -1;
 	}
 
-	union HashData
+	uint8_t secret[20] = {0};
+
+	FILE* fpurandom = fopen("/dev/urandom", "r");
+	if(!fpurandom)
+
 	{
-		uint8_t bytes[20];
-		unsigned int nums[5];
-	};
-
-	time_t now = time(0);
-
-	union HashData seed, secret;
-	//Since rand_r only takes an unsigned int, which may be (and is, on
-	//x86_64 systems) smaller than a time_t, we want to sure the seed has
-	//enough entropy by hashing it first instead of using it directly. This
-	//way we don't have to hope we picked the fast half of the timestamp.
-
-	SHA1(seed.bytes, (const char*) &now, sizeof(time_t));
-
-	size_t idx = 0;
-	for(; idx < 5; ++idx)
-	{
-		secret.nums[idx] = rand_r(&seed.nums[0]);
+		return -1;
 	}
 
-	return base32encode(secret.bytes, 20, out, outlen);
+	if(fread(secret, 1, 20, fpurandom) < 20)
+	{
+		fclose(fpurandom);
+		return -1;
+	}
+
+	fclose(fpurandom);
+	return base32encode(secret, 20, out, outlen);
 }
 
 int32_t compute_totp(const char* secret, size_t secretlen,
