@@ -114,18 +114,18 @@ int generate_random_secret(char* out, size_t outlen)
 
 	FILE* fpurandom = fopen("/dev/urandom", "r");
 	if(!fpurandom)
-
 	{
 		return -1;
 	}
 
-	if(fread(secret, 1, 20, fpurandom) < 20)
-	{
-		fclose(fpurandom);
-		return -1;
-	}
-
+	int bread = fread(secret, 1, 20, fpurandom);
 	fclose(fpurandom);
+
+	if(bread < 20)
+	{
+		return -1;
+	}
+
 	return base32encode(secret, 20, out, outlen);
 }
 
