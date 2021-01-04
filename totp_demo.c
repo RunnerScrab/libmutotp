@@ -25,11 +25,25 @@
 #include "totp.h"
 #include "base32codec.h"
 
+int32_t FillFromURANDOM(uint8_t* out, size_t outlen)
+{
+	FILE* fpurandom = fopen("/dev/urandom", "r");
+	if(!fpurandom)
+	{
+		return -1;
+	}
+
+	int32_t bread = fread(out, 1, outlen, fpurandom);
+	fclose(fpurandom);
+
+	return bread < outlen ? -1 : bread;
+}
+
 void demo_ansi_qrcode()
 {
 	char secret[33] = {0};
 	//Create a base32 encoded secret in an ascii string
-	generate_random_secret(secret, 33);
+	generate_random_secret(secret, 33, FillFromURANDOM);
 	printf("Secret: %s\n", secret);
 
 	//Create an ANSI QR code graphic. qrcodeansi owns the new heap memory.

@@ -101,7 +101,7 @@ static time_t flip_ts_endianness(time_t timestamp)
 	return output;
 }
 
-int generate_random_secret(char* out, size_t outlen)
+int generate_random_secret(char* out, size_t outlen, int32_t (*rgen)(uint8_t*, size_t))
 {
 	//Generate a 160-bit random value encoded in a 32 character long base32
 	//encoded ASCII string
@@ -112,16 +112,7 @@ int generate_random_secret(char* out, size_t outlen)
 
 	uint8_t secret[20] = {0};
 
-	FILE* fpurandom = fopen("/dev/urandom", "r");
-	if(!fpurandom)
-	{
-		return -1;
-	}
-
-	int bread = fread(secret, 1, 20, fpurandom);
-	fclose(fpurandom);
-
-	if(bread < 20)
+	if(rgen(secret, 20) < 0)
 	{
 		return -1;
 	}

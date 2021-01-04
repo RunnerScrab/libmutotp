@@ -60,12 +60,13 @@ int32_t compute_totp(const char* secret, size_t secretlen,
  * timestep - how many seconds OTP should remain valid; almost always 30
  * digits - how many digits (1 - 8) should be in the OTP. 6 is common
  */
-
-int generate_random_secret(char* out, size_t outlen);
+int generate_random_secret(char* out, size_t outlen, int32_t (*rgen)(uint8_t*, size_t));
 /* generate_random_secret: generates a random secret encoded in base32.
  *
  * out - pointer to output buffer
  * outlen - size of buffer in bytes. Must be at least 33 bytes long.
+ * rgen - a function that fills the buffer pointed to by the first argument, of length equal to the 2nd argument, with random bytes
+ *	  and which returns -1 on failure and anything else on success
  */
 
  void hmacsha1(char* output, const char* key,
